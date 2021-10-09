@@ -14,7 +14,7 @@ if (isset($_GET['q'])) {
     }
     echo json_encode($datos);
     die();
-}else if (isset($_GET['pro'])) {
+}else if (isset($_GET['pro'])) {//busqueda de productos autocompletar
     $datos = array();
     $nombre = $_GET['pro'];
     $producto = mysqli_query($conexion, "SELECT * FROM producto WHERE codigo LIKE '%" . $nombre . "%' OR descripcion LIKE '%" . $nombre . "%' AND estado = 1");

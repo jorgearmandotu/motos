@@ -60,6 +60,8 @@ if (empty($existe) && $id_user != 1) {
                             <div class="card-body">
                                 <div class="form-group">
                                     <input id="producto" class="form-control" type="text" name="producto" placeholder="Ingresa el código o nombre">
+                                    <input id="cantProducto" class="form-control m-1" type="number" name="cantProducto" min=1 value="1">
+                                    <button class="btn btn-success m-3" id="addProducto">agregar</button>
                                 </div>
                             </div>
                         </div>

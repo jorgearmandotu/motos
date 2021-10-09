@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#dir_cliente").val(ui.item.direccion);
         }
     })
+    //busqueda de producto al teclear
     $("#producto").autocomplete({
         minLength: 3,
         source: function (request, response) {
@@ -51,16 +52,31 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         },
         select: function (event, ui) {
-            $("#producto").val(ui.item.value);
-            setTimeout(
+            $("#addProducto").click(function(){
+                $("#producto").val(ui.item.value);
+                let cantidad = $("#cantProducto").value
+                alert("agregar producto "+cantidad);
+            })
+            //$("#producto").val(ui.item.value);
+            /*setTimeout(// agrega el producto despues de ser seleccionado
                 function () {
                     e = jQuery.Event("keypress");
                     e.which = 13;
                     registrarDetalle(e, ui.item.id, 1, ui.item.precio);
-                }
-            )
+                },10000
+            )*/
+           
         }
     })
+   
+    //busqueda al dar enter
+    $("#producto").keypress(function (e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code=="13"){
+            registrarDetalle(e, ui.item.id, 1, ui.item.precio);
+        }
+    })
+
     $('#btn_generar').click(function (e) {
         e.preventDefault();
         var rows = $('#tblDetalle tr').length;
@@ -144,7 +160,7 @@ function listar() {
         }
     });
 }
-
+//AGREGA PRODUCTO A VENTA
 function registrarDetalle(e, id, cant, precio) {
     if (document.getElementById('producto').value != '') {
         if (e.which == 13) {
