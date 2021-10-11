@@ -3,7 +3,7 @@ require_once "../conexion.php";
 session_start();
 if (isset($_GET['q'])) {
     $datos = array();
-    $nombre = $_GET['q'];
+    $nombre = $_GET['q'];//busqueda cliente
     $cliente = mysqli_query($conexion, "SELECT * FROM cliente WHERE nombre LIKE '%$nombre%' AND estado = 1");
     while ($row = mysqli_fetch_assoc($cliente)) {
         $data['id'] = $row['idcliente'];
@@ -14,7 +14,7 @@ if (isset($_GET['q'])) {
     }
     echo json_encode($datos);
     die();
-}else if (isset($_GET['pro'])) {//busqueda de productos autocompletar
+}else if (isset($_GET['pro'])) {//busqueda de listado de productos para autocompletar
     $datos = array();
     $nombre = $_GET['pro'];
     $producto = mysqli_query($conexion, "SELECT * FROM producto WHERE codigo LIKE '%" . $nombre . "%' OR descripcion LIKE '%" . $nombre . "%' AND estado = 1");
@@ -28,7 +28,21 @@ if (isset($_GET['q'])) {
     }
     echo json_encode($datos);
     die();
-}else if (isset($_GET['detalle'])) {
+}else if (isset($_GET['codbarras'])){//busqueda pr codigo de barras
+    $res = array();
+    $codBarras = $_GET['codbarras'];
+    $selectproducto = mysqli_query($conexion, "SELECT * FROM producto WHERE codigo = .$codBarras. AND estado = 1");
+    while($row = mysqli_fetch_assoc($producto)){
+        $data['id'] = $row['codproducto'];
+        $data['label'] = $row['codigo'] . ' - ' .$row['descripcion'];
+        $data['value'] = $row['descripcion'];
+        $data['precio'] = $row['precio'];
+        $data['existencia'] = $row['existencia'];
+        array_push($res, $data);
+    }
+    echo json_encode($res);
+}
+else if (isset($_GET['detalle'])) {
     $id = $_SESSION['idUser'];
     $datos = array();
     $detalle = mysqli_query($conexion, "SELECT d.*, p.codproducto, p.descripcion FROM detalle_temp d INNER JOIN producto p ON d.id_producto = p.codproducto WHERE d.id_usuario = $id");

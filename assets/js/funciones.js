@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#nom_cliente").val(ui.item.label);
             $("#tel_cliente").val(ui.item.telefono);
             $("#dir_cliente").val(ui.item.direccion);
+            $("#producto").focus();
         }
     })
     //busqueda de producto al teclear
@@ -54,8 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
         select: function (event, ui) {
             $("#addProducto").click(function(){
                 $("#producto").val(ui.item.value);
-                let cantidad = $("#cantProducto").value
-                alert("agregar producto "+cantidad);
+                setTimeout(// agrega el producto
+                    function () {
+                        let cantidad = $("#cantProducto").val();
+                        e = jQuery.Event("keypress");
+                        e.which = 13;
+                        registrarDetalle(e, ui.item.id, cantidad, ui.item.precio);
+                    },0
+                )
             })
             //$("#producto").val(ui.item.value);
             /*setTimeout(// agrega el producto despues de ser seleccionado
@@ -71,10 +78,28 @@ document.addEventListener("DOMContentLoaded", function () {
    
     //busqueda al dar enter
     $("#producto").keypress(function (e){
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if(code=="13"){
-            registrarDetalle(e, ui.item.id, 1, ui.item.precio);
+        if(e.which == 13){
+            //alert("enter");
+            //buscar con el codigo de barras el producto
+            let res = $.ajax({
+                url: "ajax.php",
+                dataType: "json",
+                data: {
+                    codBarras: $("#producto").val(),
+                },
+                success: function (data){
+                    //alert("datos obetnidos "+data);
+                    response(data);
+                }
+            });
+            
+            alert("datos obtenidos" + res);
         }
+        /*var code = (e.keyCode ? e.keyCode : e.which);
+        if(code=="13"){
+            alerts("Enter");
+            //registrarDetalle(e, ui.item.id, 1, ui.item.precio);
+        }*/
     })
 
     $('#btn_generar').click(function (e) {
