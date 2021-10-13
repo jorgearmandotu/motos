@@ -78,22 +78,29 @@ document.addEventListener("DOMContentLoaded", function () {
    
     //busqueda al dar enter
     $("#producto").keypress(function (e){
+        var dat;
         if(e.which == 13){
             //alert("enter");
             //buscar con el codigo de barras el producto
-            let res = $.ajax({
+            var request = $.ajax({
                 url: "ajax.php",
                 dataType: "json",
                 data: {
                     codBarras: $("#producto").val(),
                 },
-                success: function (data){
-                    //alert("datos obetnidos "+data);
-                    response(data);
+            });
+            console.log(request);
+            request.done(function(data){
+                if(data['value']){
+                    let cantidad = $("#cantProducto").val();
+                    registrarDetalle(e, data['id'], cantidad, data['precio']);
+                    //$("#cantProducto").val(1);
+                }else{
+                    alert("Producto no existe");
+                    $("#cantProducto").val(1);
                 }
             });
-            
-            alert("datos obtenidos" + res);
+            //alert(dat);
         }
         /*var code = (e.keyCode ? e.keyCode : e.which);
         if(code=="13"){
@@ -238,6 +245,7 @@ function registrarDetalle(e, id, cant, precio) {
             }
         }
     }
+    $("#cantProducto").val(1);
 }
 function deleteDetalle(id) {
     let detalle = 'Eliminar'

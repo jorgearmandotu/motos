@@ -28,16 +28,19 @@ if (isset($_GET['q'])) {
     }
     echo json_encode($datos);
     die();
-}else if (isset($_GET['codbarras'])){//busqueda pr codigo de barras
+}else if (isset($_GET['codBarras'])){//busqueda pr codigo de barras
     $res = array();
-    $codBarras = $_GET['codbarras'];
-    $selectproducto = mysqli_query($conexion, "SELECT * FROM producto WHERE codigo = .$codBarras. AND estado = 1");
-    while($row = mysqli_fetch_assoc($producto)){
+    $codBarras = $_GET['codBarras'];
+    $sql = "SELECT * FROM producto WHERE codigo = ".$codBarras." AND estado = 1";
+    $selectproducto = mysqli_query($conexion, $sql);
+    $result = $conexion->query($sql) or die($conexion->error);
+    while($row = mysqli_fetch_assoc($selectproducto)){
         $data['id'] = $row['codproducto'];
         $data['label'] = $row['codigo'] . ' - ' .$row['descripcion'];
         $data['value'] = $row['descripcion'];
         $data['precio'] = $row['precio'];
         $data['existencia'] = $row['existencia'];
+        $res = $data;
         array_push($res, $data);
     }
     echo json_encode($res);
