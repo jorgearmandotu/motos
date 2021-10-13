@@ -64,15 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     },0
                 )
             })
-            //$("#producto").val(ui.item.value);
-            /*setTimeout(// agrega el producto despues de ser seleccionado
-                function () {
-                    e = jQuery.Event("keypress");
-                    e.which = 13;
-                    registrarDetalle(e, ui.item.id, 1, ui.item.precio);
-                },10000
-            )*/
-           
         }
     })
    
@@ -96,7 +87,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     registrarDetalle(e, data['id'], cantidad, data['precio']);
                     //$("#cantProducto").val(1);
                 }else{
-                    alert("Producto no existe");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Producto No Encontrado',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
                     $("#cantProducto").val(1);
                 }
             });

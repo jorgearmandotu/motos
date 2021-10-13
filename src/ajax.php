@@ -31,9 +31,13 @@ if (isset($_GET['q'])) {
 }else if (isset($_GET['codBarras'])){//busqueda pr codigo de barras
     $res = array();
     $codBarras = $_GET['codBarras'];
-    $sql = "SELECT * FROM producto WHERE codigo = ".$codBarras." AND estado = 1";
-    $selectproducto = mysqli_query($conexion, $sql);
-    $result = $conexion->query($sql) or die($conexion->error);
+    //$sql = "SELECT * FROM producto WHERE codigo = '".$codBarras."' AND estado = 1";
+    $sql = $conexion->prepare("SELECT * FROM producto WHERE codigo = ? AND estado = 1");
+    $sql->bind_param('s', $codBarras);
+    $sql->execute();
+    //$selectproducto = mysqli_query($conexion, $sql);
+    $selectproducto = $sql->get_result();
+    //$result = $conexion->query($sql) or die($conexion->error);
     while($row = mysqli_fetch_assoc($selectproducto)){
         $data['id'] = $row['codproducto'];
         $data['label'] = $row['codigo'] . ' - ' .$row['descripcion'];
