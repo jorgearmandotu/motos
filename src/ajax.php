@@ -4,9 +4,10 @@ session_start();
 if (isset($_GET['q'])) {
     $datos = array();
     $nombre = $_GET['q'];//busqueda cliente
-    $cliente = mysqli_query($conexion, "SELECT * FROM cliente WHERE nombre LIKE '%$nombre%' AND estado = 1");
+    $cliente = mysqli_query($conexion, "SELECT * FROM cliente WHERE nombre LIKE '%$nombre%' OR identificacion = '$nombre' AND estado = 1");
     while ($row = mysqli_fetch_assoc($cliente)) {
         $data['id'] = $row['idcliente'];
+        $data['identificacion'] = $row['identificacion'];
         $data['label'] = $row['nombre'];
         $data['direccion'] = $row['direccion'];
         $data['telefono'] = $row['telefono'];
@@ -49,7 +50,7 @@ if (isset($_GET['q'])) {
     }
     echo json_encode($res);
 }
-else if (isset($_GET['detalle'])) {
+else if (isset($_GET['detalle'])) {//detalle de peido en curso
     $id = $_SESSION['idUser'];
     $datos = array();
     $detalle = mysqli_query($conexion, "SELECT d.*, p.codproducto, p.descripcion FROM detalle_temp d INNER JOIN producto p ON d.id_producto = p.codproducto WHERE d.id_usuario = $id");
@@ -128,7 +129,7 @@ if (isset($_POST['action'])) {
     $result = mysqli_num_rows($verificar);
     $datos = mysqli_fetch_assoc($verificar);
     if ($result > 0) {
-        $cantidad = $datos['cantidad'] + 1;
+        $cantidad = $datos['cantidad'] + $cant;//???
         $total_precio = $cantidad * $total;
         $query = mysqli_query($conexion, "UPDATE detalle_temp SET cantidad = $cantidad, total = '$total_precio' WHERE id_producto = $id AND id_usuario = $id_user");
         if ($query) {

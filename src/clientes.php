@@ -9,25 +9,26 @@ if (empty($existe) && $id_user != 1) {
 }
 if (!empty($_POST)) {
     $alert = "";
-    if (empty($_POST['nombre']) || empty($_POST['telefono']) || empty($_POST['direccion'])) {
+    if (empty($_POST['nombre']) || empty($_POST['telefono']) || empty($_POST['direccion']) || empty($_POST['identificacion'])) {
         $alert = '<div class="alert alert-danger" role="alert">
                                     Todo los campos son obligatorio
                                 </div>';
     } else {
+        $identificacion = $_POST['identificacion'];
         $nombre = $_POST['nombre'];
         $telefono = $_POST['telefono'];
         $direccion = $_POST['direccion'];
         $usuario_id = $_SESSION['idUser'];
 
         $result = 0;
-        $query = mysqli_query($conexion, "SELECT * FROM cliente WHERE nombre = '$nombre'");
+        $query = mysqli_query($conexion, "SELECT * FROM cliente WHERE identificacion = '$identificacion'");
         $result = mysqli_fetch_array($query);
         if ($result > 0) {
             $alert = '<div class="alert alert-danger" role="alert">
                                     El cliente ya existe
                                 </div>';
-        } else {
-            $query_insert = mysqli_query($conexion, "INSERT INTO cliente(nombre,telefono,direccion, usuario_id) values ('$nombre', '$telefono', '$direccion', '$usuario_id')");
+        } else {//ingresa cliente
+            $query_insert = mysqli_query($conexion, "INSERT INTO cliente(identificacion, nombre,telefono,direccion, usuario_id) values ('$identificacion','$nombre', '$telefono', '$direccion', '$usuario_id')");
             if ($query_insert) {
                 $alert = '<div class="alert alert-success" role="alert">
                                     Cliente registrado
@@ -49,6 +50,7 @@ if (!empty($_POST)) {
         <thead class="thead-dark">
             <tr>
                 <th>#</th>
+                <th>Identificación</th>
                 <th>Nombre</th>
                 <th>Teléfono</th>
                 <th>Dirección</th>
@@ -72,6 +74,7 @@ if (!empty($_POST)) {
             ?>
                     <tr>
                         <td><?php echo $data['idcliente']; ?></td>
+                        <td><?php echo $data['identificacion']; ?></td>
                         <td><?php echo $data['nombre']; ?></td>
                         <td><?php echo $data['telefono']; ?></td>
                         <td><?php echo $data['direccion']; ?></td>
@@ -91,6 +94,7 @@ if (!empty($_POST)) {
 
     </table>
 </div>
+<!--modal creacion de cliente -->
 <div id="nuevo_cliente" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -102,6 +106,10 @@ if (!empty($_POST)) {
             </div>
             <div class="modal-body">
                 <form action="" method="post" autocomplete="off">
+                    <div class="form-group">
+                        <label for="identificacion">Identificación</label>
+                        <input type="text" placeholder="Ingrese Identificación" name="identificacion" id="nombre" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input type="text" placeholder="Ingrese Nombre" name="nombre" id="nombre" class="form-control">

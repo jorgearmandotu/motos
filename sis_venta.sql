@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cliente` (
   `idcliente` int(11) NOT NULL,
+  `identificacion` varchar(30) COLLATE utf8_spanish_ci NOT NULL UNIQUE,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `telefono` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `direccion` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
@@ -40,9 +41,9 @@ CREATE TABLE `cliente` (
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`idcliente`, `nombre`, `telefono`, `direccion`, `usuario_id`, `estado`) VALUES
-(1, 'Público en General', '8296826298', 'S/D', 1, 1),
-(2, 'Angel sifuentes flores', '2147483647', 'Lima - Huari', 1, 1);
+INSERT INTO `cliente` (`idcliente`, `nombre`, `telefono`, `direccion`, `usuario_id`, `estado`, `identificacion`) VALUES
+(1, 'Público en General', '8296826298', 'S/D', 1, 1, '123'),
+(2, 'Angel sifuentes flores', '2147483647', 'Lima - Huari', 1, 1, '456');
 
 -- --------------------------------------------------------
 

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
     })
-    $("#nom_cliente").autocomplete({
+    $("#nom_cliente").autocomplete({//busqueda de cliente
         minLength: 3,
         source: function (request, response) {
             $.ajax({
@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
             request.done(function(data){
                 if(data['value']){
                     let cantidad = $("#cantProducto").val();
+                    console.log(cantidad);
                     registrarDetalle(e, data['id'], cantidad, data['precio']);
                     //$("#cantProducto").val(1);
                 }else{
@@ -191,6 +192,7 @@ function listar() {
 }
 //AGREGA PRODUCTO A VENTA
 function registrarDetalle(e, id, cant, precio) {
+    console.log(cant);
     if (document.getElementById('producto').value != '') {
         if (e.which == 13) {
             if (id != null) {
