@@ -53,6 +53,7 @@ INSERT INTO `cliente` (`idcliente`, `nombre`, `telefono`, `direccion`, `usuario_
 
 CREATE TABLE `configuracion` (
   `id` int(11) NOT NULL,
+  `nit` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `telefono` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
@@ -63,8 +64,8 @@ CREATE TABLE `configuracion` (
 -- Volcado de datos para la tabla `configuracion`
 --
 
-INSERT INTO `configuracion` (`id`, `nombre`, `telefono`, `email`, `direccion`) VALUES
-(1, 'Vida Informático', '925491523', 'angelsifuentes2580@gamil.com', 'Lima');
+INSERT INTO `configuracion` (`id`, `nombre`, `telefono`, `email`, `direccion`, `nit`) VALUES
+(1, 'Vida Informático', '925491523', 'angelsifuentes2580@gamil.com', 'Lima', '898989');
 
 -- --------------------------------------------------------
 

@@ -303,7 +303,9 @@ function calcular() {
         var columnas = e.querySelectorAll("td");
 
         // obtenemos los valores de la cantidad y importe
-        var importe = parseFloat(columnas[4].textContent);
+        let number = (columnas[4].textContent).replace(/\./g, '');
+        number = number.replace(/\,/g, '.');
+        var importe = parseFloat(number);
 
         total += importe;
     });

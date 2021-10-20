@@ -59,8 +59,9 @@ else if (isset($_GET['detalle'])) {//detalle de peido en curso
         $data['id'] = $row['id'];
         $data['descripcion'] = $row['descripcion'];
         $data['cantidad'] = $row['cantidad'];
-        $data['precio_venta'] = $row['precio_venta'];
-        $data['sub_total'] = number_format($row['precio_venta'] * $row['cantidad'], 2, '.', ',');
+        $data['precio_venta'] = number_format($row['precio_venta'], 2, ',', '.');
+        $data['sub_total'] = number_format($row['precio_venta'] * $row['cantidad'], 2, ',', '.');
+        //$data['sub_total'] = $row['precio_venta'] * $row['cantidad'];
         array_push($datos, $data);
     }
     echo json_encode($datos);
