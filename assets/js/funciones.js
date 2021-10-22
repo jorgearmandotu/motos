@@ -174,12 +174,14 @@ function listar() {
         },
         success: function (response){
             response.forEach(row => {
+                let vlrUnit = row['precio_venta'];
+                let subtotal =row['sub_total'];
                 html += `<tr>
                 <td>${row['id']}</td>
                 <td>${row['descripcion']}</td>
                 <td>${row['cantidad']}</td>
-                <td>${row['precio_venta']}</td>
-                <td>${row['sub_total']}</td>
+                <td>${format(vlrUnit)}</td>
+                <td>${format(subtotal)}</td>
                 <td><button class="btn btn-danger" type="button" onclick="deleteDetalle(${row['id']})">
                 <i class="fas fa-trash-alt"></i></button></td>
                 </tr>`;
@@ -189,6 +191,17 @@ function listar() {
             
         }
     });
+}
+function format(nStr) {//dar formato puntuacion de miles
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? ',' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + '.' + '$2');
+    }
+    return x1 + x2;
 }
 //AGREGA PRODUCTO A VENTA
 function registrarDetalle(e, id, cant, precio) {
@@ -312,7 +325,8 @@ function calcular() {
 
     // mostramos la suma total
     var filas = document.querySelectorAll("#tblDetalle tfoot tr td");
-    filas[1].textContent = total.toFixed(2);
+    //filas[1].textContent = total.toFixed(2);
+    filas[1].textContent = '$ '+format(total);
 }
 function generarPDF(cliente, id_venta) {
     url = 'pdf/generar.php?cl=' + cliente + '&v=' + id_venta;

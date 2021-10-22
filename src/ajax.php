@@ -50,7 +50,7 @@ if (isset($_GET['q'])) {
     }
     echo json_encode($res);
 }
-else if (isset($_GET['detalle'])) {//detalle de peido en curso
+else if (isset($_GET['detalle'])) {//detalle de pedido en curso
     $id = $_SESSION['idUser'];
     $datos = array();
     $detalle = mysqli_query($conexion, "SELECT d.*, p.codproducto, p.descripcion FROM detalle_temp d INNER JOIN producto p ON d.id_producto = p.codproducto WHERE d.id_usuario = $id");
@@ -59,9 +59,10 @@ else if (isset($_GET['detalle'])) {//detalle de peido en curso
         $data['id'] = $row['id'];
         $data['descripcion'] = $row['descripcion'];
         $data['cantidad'] = $row['cantidad'];
-        $data['precio_venta'] = number_format($row['precio_venta'], 2, ',', '.');
-        $data['sub_total'] = number_format($row['precio_venta'] * $row['cantidad'], 2, ',', '.');
-        //$data['sub_total'] = $row['precio_venta'] * $row['cantidad'];
+        //$data['precio_venta'] = number_format($row['precio_venta'], 2, ',', '.');
+        $data['precio_venta'] = $row['precio_venta'];
+        //$data['sub_total'] = number_format($row['precio_venta'] * $row['cantidad'], 2, ',', '.');
+        $data['sub_total'] = $row['precio_venta'] * $row['cantidad'];
         array_push($datos, $data);
     }
     echo json_encode($datos);
